@@ -11,6 +11,9 @@ pub fn fetch_img(path: &str) -> DynamicImage {
 
 pub fn convert_format(img:DynamicImage, path: &str, new_img_fmt: ImageFormat, new_fmt_str: &String) {
     let orig_fmt = find_fmt(path);
+    if orig_fmt == new_fmt_str {
+        panic!("You are trying to convert your image to the same type, please try again");
+    }
     img.save_with_format(
         path.replace(orig_fmt, new_fmt_str), 
         new_img_fmt)
