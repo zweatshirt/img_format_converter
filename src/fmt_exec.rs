@@ -1,5 +1,7 @@
 use image::{open, DynamicImage, ImageFormat}; 
 use std::thread;
+
+// open file at given path and return Dynamic Image
 pub fn fetch_img(path: &str) -> DynamicImage {
     match open(path) {
         Ok(img) => { img },
@@ -9,6 +11,7 @@ pub fn fetch_img(path: &str) -> DynamicImage {
     }
 }
 
+// convert the image file to the user's desired format
 pub fn convert_format(img:DynamicImage, path: &str, new_img_fmt: ImageFormat, new_fmt_str: &String) {
     let orig_fmt = find_fmt(path);
     if orig_fmt == *new_fmt_str {
@@ -21,8 +24,8 @@ pub fn convert_format(img:DynamicImage, path: &str, new_img_fmt: ImageFormat, ne
     let handle = thread::spawn(
         move || {
             img.save_with_format(
-        clone_path.replace(&orig_fmt, &clone_new_fmt_str), 
-        new_img_fmt
+            clone_path.replace(&orig_fmt, &clone_new_fmt_str), 
+            new_img_fmt
             )
             .expect("Failed to convert.");
     });
@@ -30,6 +33,7 @@ pub fn convert_format(img:DynamicImage, path: &str, new_img_fmt: ImageFormat, ne
     
 }
 
+// find the original format from the user's provided path
 pub fn find_fmt(path: &str) -> String {
     let mut original_fmt: Option<&str> = None;
     let mut i = 0;
