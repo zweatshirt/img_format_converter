@@ -1,4 +1,4 @@
-use std::{collections::HashMap, io::{stdin, stdout, Stdout, Write}, process::exit};
+use std::{collections::HashMap, io::{stdin, stdout, Write}, process::exit};
 use itertools::Itertools;
 
 // removed GenericImageViewer
