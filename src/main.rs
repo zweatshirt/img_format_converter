@@ -1,4 +1,4 @@
-use std::{collections::HashMap, io::stdin};
+use std::{collections::HashMap, io::{stdin, stdout, Stdout, Write}, process::exit};
 use itertools::Itertools;
 
 // removed GenericImageViewer
@@ -29,7 +29,7 @@ use image::{open, DynamicImage, ImageFormat};
 
 
 fn main() {
-
+    let out_warn = "Failed to flush stdout";
     let image_fmts_map = get_image_fmts_map();
     println!("Choose which format to convert your image into");
 
@@ -38,22 +38,27 @@ fn main() {
         img_fmt, 
         access_thing_string(&image_fmts_map.get(img_fmt).unwrap()[0]));
     }
-    println!("Enter by number: ");
+    print!("Enter by number: ");
+    stdout().flush().expect(&out_warn);
     let mut line = String::new();
     stdin().read_line(&mut line).expect("Failed to read input");
     
     let line_num: i32 = line.trim().parse().unwrap();
     let user_fmt: String;
     user_fmt = access_thing_string(&image_fmts_map.get(&line_num).unwrap()[0]);
-    println!("{}", user_fmt);
     
     let mut path = String::new();
-    println!("Please enter path to your file: ");
+    print!("Please enter path to your file: ");
+    stdout().flush().expect(&out_warn);
     stdin().read_line(&mut path).expect("Failed to read input");
     let path = path.trim();
     let img = fetch_img(path);
     let new_img_fmt = access_thing_fmt(&image_fmts_map.get(&line_num).unwrap()[2]);
+
+    println!("Converting from {} to {}.", find_fmt(path), &user_fmt);
     convert_format(img, path, new_img_fmt, &user_fmt);
+
+    exit(0);
 
 }
 
@@ -68,7 +73,6 @@ pub fn fetch_img(path: &str) -> DynamicImage {
 
 pub fn convert_format(img:DynamicImage, path: &str, new_img_fmt: ImageFormat, new_fmt_str: &String) {
     let orig_fmt = find_fmt(path);
-    // convert image from jpg to png
     img.save_with_format(
         path.replace(orig_fmt, new_fmt_str), 
         new_img_fmt)
@@ -86,10 +90,9 @@ fn find_fmt(path: &str) -> &str {
         }
         i+=1;
     }
-    println!("{}", original_fmt.unwrap());
     match original_fmt {
         None => {
-            panic!("failed to get image format from the path")
+            panic!("Failed to get image format from the path")
         },
         Some(val) => {
             return val;
