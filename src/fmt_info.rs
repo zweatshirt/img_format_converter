@@ -1,6 +1,8 @@
 use std::collections::HashMap;
 use image::ImageFormat;
 
+
+// enum/container for image format data
 pub enum Thing {
     Name(String),
     Details(String),
@@ -8,6 +10,7 @@ pub enum Thing {
 
 }
 
+// returns image data relating to format and description
 pub fn get_thing_string(thing: &Thing) -> String {
     match thing {
         Thing::Name(name) => { name.to_string() },
@@ -16,6 +19,7 @@ pub fn get_thing_string(thing: &Thing) -> String {
     }
 }
 
+// returns the actual image format enum
 pub fn get_thing_fmt(thing: &Thing) -> ImageFormat {
     match thing {
         Thing::ImageFormat(img_format) => { *img_format },
@@ -24,6 +28,7 @@ pub fn get_thing_fmt(thing: &Thing) -> ImageFormat {
 }
 
 // very much needs to be fixed/automated
+// Map of vectors of image format enums
 pub fn get_image_fmts_map() -> HashMap<i32, Vec<Thing>> {
      return HashMap::from([
         (
