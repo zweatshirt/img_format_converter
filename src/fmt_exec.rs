@@ -24,8 +24,8 @@ pub fn find_fmt(path: &str) -> &str {
     let mut original_fmt: Option<&str> = None;
     let mut i = 0;
     for char in path.chars() {
-        
-        if char == '.' {
+        // dodgy
+        if char == '.' && i != 0 {
             original_fmt = Some(&path[i..]);
             break;
         }
