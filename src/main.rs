@@ -57,7 +57,7 @@ fn main() {
     stdin().read_line(&mut path).expect("Failed to read input");
     let path = path.trim();
     let img = fmt_exec::fetch_img(path);
-    let new_img_fmt = fmt_info::access_thing_fmt(
+    let new_img_fmt = fmt_info::get_thing_fmt(
         &image_fmts_map.get(&line_num)
         .unwrap()[2]
     );
