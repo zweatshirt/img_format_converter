@@ -142,15 +142,5 @@ pub fn get_image_fmts_map() -> HashMap<i32, Vec<Thing>> {
                 Thing::ImageFormat(ImageFormat::Qoi)
             ]
         ),
-        (
-            13,
-            vec![
-                Thing::Name(String::from(".pcx")), 
-                Thing::Details(String::from("PCX (Personal Computer Exchange) is an early image format that supports lossless compression, 
-                commonly used in DOS-based graphics applications, known for its simplicity and support for indexed 
-                color and grayscale images.")),
-                Thing::ImageFormat(ImageFormat::Pcx),
-            ] 
-        )
     ]);
 }

@@ -3,6 +3,7 @@ use itertools::Itertools;
 mod fmt_info;
 mod fmt_exec;
 
+
 // removed GenericImageViewer
 
 
@@ -38,6 +39,7 @@ fn main() {
         img_fmt, 
         fmt_info::access_thing_string(&image_fmts_map.get(img_fmt).unwrap()[0]));
     }
+
     print!("Enter by number: ");
     stdout().flush().expect(&out_warn);
     let mut line = String::new();
@@ -62,7 +64,7 @@ fn main() {
 
     println!("Converting from {} to {}.", fmt_exec::find_fmt(path), &user_fmt);
     fmt_exec::convert_format(img, path, new_img_fmt, &user_fmt);
-
+    println!("Done!");
     exit(0);
 
 }

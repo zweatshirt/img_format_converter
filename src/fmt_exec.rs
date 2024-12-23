@@ -1,5 +1,5 @@
 use image::{open, DynamicImage, ImageFormat}; 
-
+use std::{io::stdout, io::Write, thread};
 pub fn fetch_img(path: &str) -> DynamicImage {
     match open(path) {
         Ok(img) => { img },
@@ -11,16 +11,25 @@ pub fn fetch_img(path: &str) -> DynamicImage {
 
 pub fn convert_format(img:DynamicImage, path: &str, new_img_fmt: ImageFormat, new_fmt_str: &String) {
     let orig_fmt = find_fmt(path);
-    if orig_fmt == new_fmt_str {
+    if orig_fmt == *new_fmt_str {
         panic!("You are trying to convert your image to the same type, please try again");
     }
-    img.save_with_format(
-        path.replace(orig_fmt, new_fmt_str), 
-        new_img_fmt)
-        .expect("Failed to convert to PNG");
+
+    let clone_path = path.to_string();
+    let clone_new_fmt_str = new_fmt_str.to_string();
+
+    thread::spawn(
+        move || {
+            img.save_with_format(
+        clone_path.replace(&orig_fmt, &clone_new_fmt_str), 
+        new_img_fmt
+            )
+            .expect("Failed to convert."); 
+        });
+    stdout().flush().expect("Failed to flush stdout");
 }
 
-pub fn find_fmt(path: &str) -> &str {
+pub fn find_fmt(path: &str) -> String {
     let mut original_fmt: Option<&str> = None;
     let mut i = 0;
     for char in path.chars() {
@@ -36,7 +45,7 @@ pub fn find_fmt(path: &str) -> &str {
             panic!("Failed to get image format from the path")
         },
         Some(val) => {
-            return val;
+            return String::from(val);
         }
     }
 }
