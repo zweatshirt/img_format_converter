@@ -1,5 +1,5 @@
 use image::{open, DynamicImage, ImageFormat}; 
-use std::{io::stdout, io::Write, thread};
+use std::thread;
 pub fn fetch_img(path: &str) -> DynamicImage {
     match open(path) {
         Ok(img) => { img },

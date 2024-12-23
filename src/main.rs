@@ -37,7 +37,7 @@ fn main() {
     for img_fmt in image_fmts_map.keys().sorted() {
         println!("{})\t{}", 
         img_fmt, 
-        fmt_info::access_thing_string(&image_fmts_map.get(img_fmt).unwrap()[0]));
+        fmt_info::get_thing_string(&image_fmts_map.get(img_fmt).unwrap()[0]));
     }
 
     print!("Enter by number: ");
@@ -47,12 +47,12 @@ fn main() {
     
     let line_num: i32 = line.trim().parse().unwrap();
     let user_fmt: String;
-    user_fmt = fmt_info::access_thing_string(
+    user_fmt = fmt_info::get_thing_string(
         &image_fmts_map.get(&line_num)
         .unwrap()[0]);
     
     let mut path = String::new();
-    print!("Please enter path to your file: ");
+    print!("Please enter the path to your file: ");
     stdout().flush().expect(&out_warn);
     stdin().read_line(&mut path).expect("Failed to read input");
     let path = path.trim();

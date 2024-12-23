@@ -8,7 +8,7 @@ pub enum Thing {
 
 }
 
-pub fn access_thing_string(thing: &Thing) -> String {
+pub fn get_thing_string(thing: &Thing) -> String {
     match thing {
         Thing::Name(name) => { name.to_string() },
         Thing::Details(details) => { details.to_string() },
@@ -16,7 +16,7 @@ pub fn access_thing_string(thing: &Thing) -> String {
     }
 }
 
-pub fn access_thing_fmt(thing: &Thing) -> ImageFormat {
+pub fn get_thing_fmt(thing: &Thing) -> ImageFormat {
     match thing {
         Thing::ImageFormat(img_format) => { *img_format },
         _ => panic!("Not a valid format!")
