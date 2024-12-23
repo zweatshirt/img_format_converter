@@ -18,15 +18,16 @@ pub fn convert_format(img:DynamicImage, path: &str, new_img_fmt: ImageFormat, ne
     let clone_path = path.to_string();
     let clone_new_fmt_str = new_fmt_str.to_string();
 
-    thread::spawn(
+    let handle = thread::spawn(
         move || {
             img.save_with_format(
         clone_path.replace(&orig_fmt, &clone_new_fmt_str), 
         new_img_fmt
             )
-            .expect("Failed to convert."); 
-        });
-    stdout().flush().expect("Failed to flush stdout");
+            .expect("Failed to convert.");
+    });
+    handle.join().expect("Save thread failed");
+    
 }
 
 pub fn find_fmt(path: &str) -> String {
