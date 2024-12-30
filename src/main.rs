@@ -55,7 +55,8 @@ fn main() {
     let user_fmt: String;
     user_fmt = fmt_info::get_thing_string(
         &image_fmts_map.get(&line_num)
-        .unwrap()[0]);
+        .unwrap()[0]
+    );
     
     // read in and parse path to user's image
     let mut path = String::new();
