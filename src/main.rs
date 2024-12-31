@@ -1,85 +1,76 @@
-use std::{io::{stdin, stdout, Write}, process::exit};
-use itertools::Itertools;
+use std::{env::{self}, process::exit};
+use fmt_exec::find_fmt;
+use fmt_info::{get_thing_fmt, Thing};
 mod fmt_info;
 mod fmt_exec;
-
-// removed GenericImageViewer
-
-/* Image processing project to learn Rust,
-* as well as the study of parallel computing
-* 
-* What is image processing?
-* - manipulation of digital images using algorithms
-* - filtering, enhancment, resizing, etc
+mod help;
+/*
+* Author: Zachery Linscott
+* Format: ./image_proc -i inputpath.format1 -o outputpath.format2
+* E.g. ./image_proc -i home/Desktop/meme.png -o home/Desktop/meme.jpeg
 *
-* Image - 2D vectors of pixels
-* 
-* Applications of img proc:
-* - useful for computer vision
-* - environment monitoring
-* - video processing
-* - photography
-*
-* Crate - fancy word for packages
-* Cargo - Rust's build sys/pkg mgr
-*
-* Import image crate:
-* `cargo add image`
+* Run ./image_proc -h 
+* for a list of format options
 */
 
+
 fn main() {
-    // messages for stdout and for when errors occur
-    let out_warn = "Failed to flush stdout";
-    let in_warn = "failed to read input";
-    let enter_num = "Enter the number corresponding to your choice: ";
-    let enter_path = "Please enter the path to the image you want converted: ";
-
     let image_fmts_map = fmt_info::get_image_fmts_map();
-    println!("Choose which format to convert your image into");
+    let mut input_path = String::from("");
+    let mut output_path = String::from("");
 
-    // Display options to user
-    for img_fmt in image_fmts_map.keys().sorted() {
-        println!("{})\t{}", 
-        img_fmt, 
-        fmt_info::get_thing_string(&image_fmts_map.get(img_fmt).unwrap()[0]));
+    let args: Vec<String> = env::args().collect();
+    for i in 1..args.len() {
+        match args[i].as_str() {
+            "-h" | "--help" => { 
+                help::display_info(&image_fmts_map); 
+                return; 
+            }
+            "-i" => {
+                if i + 1 < args.len() {
+                    input_path = args[i + 1].clone();
+                }
+                else {
+                    println!("Failed to read input path");
+                    return;
+                }
+            }
+            "-o" => {
+                if i + 1 < args.len() {
+                    output_path = args[i + 1].clone();
+                }
+                else {
+                    println!("Failed to read output path");
+                    return;
+                }
+            }
+            _ => {
+                if args[i].contains('-') {
+                    println!("Unkown argument {}", args[i]);
+                } 
+            }
+        }
     }
 
-    // Ask user which option they would like and read
-    print!("{}", enter_num);
-    stdout().flush().expect(&out_warn);
-    let mut line = String::new();
-    stdin().read_line(&mut line).expect(&in_warn);
-    
-    // Grab format info based on user decision
-    let line_num: i32 = line.trim().parse().unwrap();
-    let user_fmt: String;
-    user_fmt = fmt_info::get_thing_string(
-        &image_fmts_map.get(&line_num)
-        .unwrap()[0]);
-    
-    // read in and parse path to user's image
-    let mut path = String::new();
-    print!("{}", enter_path);
-    stdout().flush().expect(&out_warn);
-    stdin().read_line(&mut path).expect(&in_warn);
-    let path = path.trim();
+    println!("{input_path}, {output_path}");
+    let in_fmt = find_fmt(&input_path);
+    let out_fmt = find_fmt(&output_path);
+    println!("{in_fmt}, {out_fmt}");
+    let img = fmt_exec::fetch_img(&input_path);
+    let new_img_fmt = &image_fmts_map.get(&Thing::Name(out_fmt.clone())).unwrap()[1];
 
-    // open the image file and return a Dynamic Image 
-    let img = fmt_exec::fetch_img(path);
-
-    // Get the new Image Format to turn user's image into
-    let new_img_fmt = fmt_info::get_thing_fmt(
-        &image_fmts_map.get(&line_num)
-        .unwrap()[2]
+    fmt_exec::convert_format(
+        img, 
+        input_path, 
+        in_fmt,
+        out_fmt,
+        get_thing_fmt(&new_img_fmt),
     );
-
-    // Convert the image given the desired image format from the user
-    println!("Converting from {} to {}.", fmt_exec::find_fmt(path), &user_fmt);
-    fmt_exec::convert_format(img, path, new_img_fmt, &user_fmt);
     println!("Done!");
 
     exit(0);
 
 }
+
 
 
