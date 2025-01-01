@@ -1,14 +1,25 @@
 # image_format_converter
 
-Small project I am doing to learn Rust.
+--- 
 
 An example of running the project assuming you are in the project's working directory:
-`./image_proc -i home/Desktop/image.jpeg -o home/Desktop/image.png`
+`./imgfmt -i home/Desktop/image.jpeg -o home/Desktop/image.png`
+
+run `./imgfmt -h` for a list of format options
+
 -i: input flag
+
 -o: output flag
 
-run `./image_proc -h` for a list of format options
 -h: help flag
+
+If you have Linux: while in the project's working directory run `sudo cp ./imgfmt /usr/local/bin/` to turn the project into an easily accessible executable.
+
+After doing this, you can access the executable any time by running `imgfmt` in the terminal.
+
+---
+
+## NOTE:
 
 This project is about 80% done. There are some things to iron out for quality.
 
