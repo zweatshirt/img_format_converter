@@ -4,6 +4,7 @@ use fmt_info::{get_thing_fmt, Thing};
 mod fmt_info;
 mod fmt_exec;
 mod help;
+
 /*
 * Author: Zachery Linscott
 * Format: ./imgfmt -i inputpath.format1 -o outputpath.format2
@@ -12,7 +13,6 @@ mod help;
 * Run ./imgfmt -h
 * for a list of format options
 */
-
 
 fn main() {
     let image_fmts_map = fmt_info::get_image_fmts_map();

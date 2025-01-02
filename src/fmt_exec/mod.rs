@@ -32,7 +32,6 @@ pub fn convert_format(img: DynamicImage, path: String, in_fmt_str: String, out_f
             .expect("Failed to convert.");
     });
     handle.join().expect("Save thread failed");
-    
 }
 
 // find the original format from the user's provided path

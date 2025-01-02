@@ -129,16 +129,6 @@ pub fn get_image_fmts_map() -> HashMap<Thing, Vec<Thing>> {
                 providing excellent image quality at smaller file sizes, often used for web images.")),
                 Thing::ImageFormat(ImageFormat::Avif)
             ]
-        ), 
-        // Doesn't currently work
-        // (
-        //     12,
-        //     vec![
-        //         Thing::Name(String::from(".qoi")), 
-        //         Thing::Details(String::from("QOI (Quite OK Image) is a simple and efficient lossless image format designed for fast encoding and decoding, 
-        //         providing high-quality images with minimal file sizes and easy implementation.")),
-        //         Thing::ImageFormat(ImageFormat::Qoi)
-        //     ]
-        // ),
+        )
     ]);
 }

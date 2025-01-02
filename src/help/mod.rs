@@ -4,7 +4,6 @@ use crate::fmt_info::{self, Thing};
 use std::collections::HashMap;
 use crate::fmt_info::get_thing_string;
 
-
 pub fn display_info(image_fmts_map: &HashMap<Thing, Vec<Thing>>) {
     // Display options to user
     println!("DESCRIPTION:\n");
