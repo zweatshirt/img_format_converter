@@ -54,9 +54,7 @@ fn main() {
                 if args[i].contains('-') {
                     println!("Error: Unkown argument {}.\nUse the -h flag for instructions.", args[i]);
                     return;
-                }
-                println!("Error: Incorrect flag formatting.\nUse the -h flag for instructions.");
-                return;
+                } // There needs to be better handling here.
             }
         }
     }
