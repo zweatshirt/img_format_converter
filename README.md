@@ -21,6 +21,4 @@ After doing this, you can access the executable any time by running `imgfmt` in 
 
 ## NOTE:
 
-This project is about 80% done. There are some things to iron out for quality.
-
 This project was written on a Linux machine and as such the executable may not work on other platforms. If so, run `cargo build --release` on your native machine.
